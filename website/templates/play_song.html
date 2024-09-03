@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block title %} {{song.title}} {% endblock title %}
+{% block content %}
+<br />
+<br />
+<div class="container" style="
+    height: 600px;
+    width: 800px;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+  ">
+    <br />
+    <div class="row">
+        <div class="col">
+            <h2 class="ms-4">{{song.title}}</h2>
+            <em class="ms-4"> By {{song.artist.firstname}} {{song.artist.lastname}}</em>
+
+        </div>
+        <div class="col text-end mt-2 me-2">
+            <form method="POST" action="{{ url_for('controllers.rate_song', song_id=song.id) }}">
+                <div class="btn-group" role="group" aria-label="Rating">
+                    <button type="submit" class="btn" style="background-color: red;" name="rating" value="1">1</button>
+                    <button type="submit" class="btn" style="background-color: rgba(255, 98, 0, 0.832);" name="rating"
+                        value="2">2</button>
+                    <button type="submit" class="btn" style="background-color: rgb(255, 203, 47);" name="rating"
+                        value="3">3</button>
+                    <button type="submit" class="btn" style="background-color: greenyellow;" name="rating"
+                        value="4">4</button>
+                    <button type="submit" class="btn" style="background-color: rgb(47, 255, 89);" name="rating"
+                        value="5">5</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <h1 class="text-center">Song</h1>
+    <div class="container rounded mt-2 text-center" style="
+      border-radius: 15px;
+      width: 600px;
+      height: 400px;
+      background-color: antiquewhite;
+      overflow: auto;
+    ">
+    <img class="mt-4" src="/static/music player.png" style="height: 250px; width: 400px;" alt="music_player_image">
+
+    <audio class="mt-4" controls>
+        <source src="{{ url_for('static', filename='uploads/' + song.file_path) }}" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    </div>
+</div>
+
+{% endblock content %}

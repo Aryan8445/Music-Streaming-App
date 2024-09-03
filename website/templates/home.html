@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock title %}
+
+{% block content %}
+<br><br>
+<div class="row">
+    <div class="col mx-5">
+        <h2>Recommended Songs</h2>
+    </div>
+    <div class="col text-end mx-5">
+        <a href="/recommended_songs" type="button" class="btn btn-warning">Show More</a>
+    </div>
+</div>
+
+<div class="container rounded-div">
+    <div class="row overflow-x-auto">
+        {% for song in recommended_songs %}
+            <div class="col">
+                <div class="card h-100 ">
+                    <img src="/static/35882.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{song.title}}</h5>
+                        <em>{{ song.artist.firstname}} {{song.artist.lastname}}</em>
+                    </div>   
+                    <div class="card-footer text-center">
+                        <a href="{{url_for('controllers.read_lyrics', song_id=song.id)}}" class="btn btn-dark mx-2">Read Lyrics</a>
+                        <a href="{{url_for('controllers.play_song', song_id=song.id)}}" class="btn btn-success mx-2">Play</a>
+                    </div> 
+                        
+                    
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col mx-5">
+        <h2>Your playlists</h2>
+    </div>
+    <div class="col text-end mx-5">
+        <a href="/create_playlist" type="button" class="btn btn-info">Create new Playlist</a>
+        <a href="/all_playlists" type="button" class="btn btn-warning ms-2">Show all</a>
+    </div>
+</div>
+<br>
+<div class="container rounded-div ">
+    {% if user_playlists %}
+        <div class="row">
+            {% for playlist in user_playlists %}
+                <div class="col md-4 " >
+                    <div class="card" style="width: 18rem; background-color: rgba(255, 255, 127, 0.558);">
+                        <img src="/static/album.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ playlist.title }}</h5>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{{ url_for('controllers.playlist_songs', playlist_id=playlist.id) }}" class="btn btn-primary mr-2">Show Songs</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="col-md-12 text-center">
+            <br>
+            <h5>Create a playlist and enjoy your favorite songs...</h5>
+        </div>
+    {% endif %}
+</div>
+<br>
+<div class="row">
+    <div class="col mx-5">
+        <h2>Rock</h2>
+    </div>
+</div>
+
+<div class="container rounded-div">
+    {% for song in rock_songs %}
+                <div class="col md-4">
+                    <div class="card h-100" style="width: 18rem; background-color: rgba(127, 255, 212, 0.558);">
+                        <img src="/static/rock.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{song.title}}</h5>
+                            <em>{{ song.artist.firstname}} {{song.artist.lastname}}</em>
+                        </div>   
+                        <div class="card-footer text-center">
+                            <a href="{{url_for('controllers.read_lyrics', song_id=song.id)}}" class="btn btn-dark mx-2">Read Lyrics</a>
+                            <a href="{{url_for('controllers.play_song', song_id=song.id)}}" class="btn btn-success mx-2">Play</a>
+                        </div> 
+                    </div>
+                </div>
+            {% endfor %}
+</div>
+<br>
+<div class="row">
+    <div class="col mx-5">
+        <h2>Bhakti</h2>
+    </div>
+</div>
+<div class="container rounded-div">
+    {% for song in Bhakti_songs %}
+                <div class="col md-4 mx-2" style="display: inline-block;">
+                    <div class="card" style="width: 18rem; background-color: rgba(255, 185, 127, 0.558);">
+                        <img src="/static/Bhakti.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{song.title}}</h5>
+                            <em>{{ song.artist.firstname}} {{song.artist.lastname}}</em>
+                        </div>   
+                        <div class="card-footer text-center">
+                            <a href="{{url_for('controllers.read_lyrics', song_id=song.id)}}" class="btn btn-dark mx-2">Read Lyrics</a>
+                            <a href="{{url_for('controllers.play_song', song_id=song.id)}}" class="btn btn-success mx-2">Play</a>
+                        </div> 
+                    </div>
+                </div>
+            {% endfor %}
+</div>
+<br>
+<div class="row">
+    <div class="col mx-5">
+        <h2>Albums</h2>
+    </div>
+</div>
+<div class="container rounded-div">
+    {% if albums %}
+        <div class="row">
+            {% for album in albums %}
+                <div class="col md-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/static/31801.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ album.title }}</h5>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{{ url_for('controllers.album_songs', album_id=album.id) }}" class="btn btn-primary mr-2">Show Songs</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="col-md-12 text-center">
+            <br>
+            <h5>No Album</h5>
+        </div>
+    {% endif %}
+</div>
+<br>
+
+
+
+
+
+{% endblock content %}

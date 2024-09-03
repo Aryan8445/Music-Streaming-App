@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Search Results
+{% endblock title %}
+
+{% block content %}
+<br>
+    <div class="container">
+        <h3 class="text-center">Search Results for "{{ query }}"</h3><br>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Song Name</th>
+                    <th scope="col">Artist</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for song in songs %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ song.title }}</td>
+                    <td>{{ song.artist.firstname }} {{ song.artist.lastname }}</td>
+                    <td class="text-end">
+                        <a href="{{url_for('controllers.read_lyrics', song_id=song.id)}}" class="btn  btn-dark me-4 ">Read Lyrics</a>
+                        <a href="{{url_for('controllers.play_song', song_id=song.id)}}" class="btn  btn-success me-2">Play</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

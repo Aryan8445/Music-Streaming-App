@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}
+Add Song to {{playlist.title}}
+{% endblock title %}
+{% block content %}
+<br>
+<h1 class="text-center">Add songs to {{playlist.title}}</h1>
+<br>
+<form action="{{ url_for('controllers.add_song_to_playlist', playlist_id=playlist.id) }}" method="POST">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Song Name</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for song in songs %}
+            <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td class="col">
+                <h5>{{ song.title }}</h5><em>{{ song.artist.firstname }} {{ song.artist.lastname }}</em>
+            </td>
+            <td class="col text-end">
+                <input type="checkbox" class="form-check-input dark " id="form-check-input]" name="song_ids[]" value="{{ song.id }}">
+                <label for="form-check-input">
+                Add
+                </label>
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="container text-center">
+        <button type="submit" class="btn btn-success">Add Songs</button>
+    </div>
+</form>
+
+    
+{% endblock content %}

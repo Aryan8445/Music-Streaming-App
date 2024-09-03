@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <style>
+    .rounded-div {
+      border-radius: 15px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      margin: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary ">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/creator_dashboard">Creator Dashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0  ">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/upload_song">Upload Song</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-4">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in
+    messages %} {% if category == 'error' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+    {% block content %} {% endblock content %}
+  </div>
+  <div class="rounded-div" style="background-color:rgb(255, 255, 255)">
+    <div class="container">
+      <h3>Welcome {{user.firstname}}!</h3>
+    </div>
+
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md rounded-div ">
+          <h5>Total songs uploaded</h5>
+          <h3>{{total_songs_uploaded}}</h3>
+        </div>
+        <div class="col-md rounded-div">
+          <h5>Average rating</h5>
+          <h3>{{ average_rating|round(1) }}</h3>
+        </div>
+        <div class="col-md rounded-div">
+          <h5>Total albums</h5>
+          <h3>{{total_albums}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br><br>
+  <div class="container ">
+    <div class="row">
+      <div class="col">
+        <h3>Your Uploads</h3>
+      </div>
+      <div class="col text-end">
+        <a href="/upload_song" class="btn btn-primary mx-2" role="button">Upload Song</a>
+        <a href="/flagged_songs" class="btn btn-warning mx-2" role="button">Flagged Songs</a>
+      </div>
+
+    </div>
+    <br>
+    <div class="container">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Song Name</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+
+        </thead>
+        <tbody>
+          {% for song in songs %}
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td class="col">
+              <h5>{{ song.title }}</h5><em>{{ song.artist_name }}</em>
+            </td>
+            <td class="col-5 text-end">
+              <a href="{{url_for('controllers.read_lyrics', song_id=song.id)}}" class="btn btn-success"
+                role="button">Read Lyrics</a>
+            </td>
+            <td class="col text-end">
+              <a href="{{url_for('controllers.update_song', song_id=song.id)}}" class="btn btn-info"
+                role="button">Update Song</a>
+            </td>
+            <td class="col text-end">
+              <form action="{{ url_for('controllers.delete_song', song_id=song.id) }}" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-danger">Delete Song</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+ <br>
+  <div class="container">
+    <div class="row">
+        <div class="col">
+          <h3>Your Albums</h3>
+        </div>
+    </div>
+    <br>
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">S.No</th>
+          <th scope="col">Album Name</th>
+          <th scope="col"></th>
+
+      </thead>
+      <tbody>
+        {% for album in all_albums %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td class="col">
+            <h5>{{ album.title }}</h5>
+          </td>
+          <td class="col-5 text-end">
+            <a href="{{ url_for('controllers.album_songs', album_id=album.id) }}" class="btn btn-primary mr-2">Show Songs</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+</body>

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="/static/3551739.jpg" class="img-fluid rounded-circle" alt="Profile Image">
+            </div>
+            <div class="col-md-8">
+                <div class="rounded-div">
+                    <h2>{{ user.firstname }} {{ user.lastname }}</h2>
+                </div>
+                <div class="rounded-div">
+                    <p>User Type: {{ user.user_type }}</p>
+                    <p>Member Since: {{ user.registration_date.strftime('%B %d, %Y') }}</p>
+                </div>
+                
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h3 class="mb-3">Favorite Songs</h3>
+        <div class="row">        
+            {% if favorite_ratings %}
+                {% for rating in favorite_ratings %}
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ rating.song.title }}</h5>
+                                <p class="card-text">Artist: {{ rating.song.artist.firstname }} {{ rating.song.artist.lastname }}</p>
+                                <p class="card-text">Genre: {{ rating.song.genre }}</p>
+                                <p class="card-text">Rating: {{ rating.value }}/5</p>
+                                <a href="{{ url_for('controllers.read_lyrics', song_id=rating.song.id) }}" class="btn btn-dark mx-2">Read Lyrics</a>
+                                <a href="{{ url_for('controllers.play_song', song_id=rating.song.id) }}" class="btn btn-success mx-2">Play</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-12 text-center">
+                    <br>
+                    <h5>No favorite songs found.</h5>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

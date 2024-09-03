@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Update Song
+{% endblock title %}
+
+{% block content %}
+<br />
+<br />
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form action="{{ url_for('controllers.update_song', song_id=song.id) }}" method="POST" class="p-4 border rounded bg-light">
+        <h3 class="text-center mb-4">Update Song</h3>
+
+        <div class="mb-3">
+          <label for="title" class="form-label">New Title:</label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="Enter Song Title" value="{{ song.title }}" />
+        </div>
+
+        <div class="mb-3">
+          <label for="release_date" class="form-label">Release Date:</label>
+          <input type="date" class="form-control" name="release_date" id="release_date" value="{{ song.release_date }}" />
+        </div>
+
+        <div class="mb-3">
+          <label for="genre" class="form-label">Genre:</label>
+          <input type="text" class="form-control" name="genre" id="genre" placeholder="Enter Genre" value="{{ song.genre }}" />
+        </div>
+
+        <div class="mb-3">
+          <label for="lyrics" class="form-label">Lyrics:</label>
+          <textarea class="form-control" name="lyrics" id="lyrics" placeholder="Enter Lyrics">{{ song.lyrics }}</textarea>
+        </div>
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button type="submit" class="btn btn-success">Update Song</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

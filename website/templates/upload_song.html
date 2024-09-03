@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Upload Song
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="/upload_song" method="POST" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+                {% if user.user_type == 'user' %}
+                    <h3 class="text-center mb-4">Start your creator journey by uploading a song</h3>
+                {% else %}
+                    <h3 class="text-center mb-4">Upload a New Song</h3>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="title" class="form-label h5">Title:</label>
+                    <input type="text" class="form-control" name="title" id="title" placeholder="Enter Song Title" />
+                </div>
+                <div class="mb-3">
+                    <label for="release_date" class="form-label h5">Release Date:</label>
+                    <input type="date" class="form-control" name="release_date" id="release_date" placeholder="Enter Release Date" />
+                </div>
+                <div class="mb-3">
+                    <label for="album" class="form-label h5">Album:</label>
+                    <input type="text" class="form-control" name="album" id="album" placeholder="Enter Album Name" />
+                </div>
+                <div class="mb-3">
+                    <label for="genre" class="form-label h5">Genre:</label>
+                    <input type="text" class="form-control" name="genre" id="genre" placeholder="Enter Genre" />
+                </div>
+                <div class="mb-3">
+                    <label for="lyrics" class="form-label h5">Lyrics:</label>
+                    <input type="text" class="form-control" name="lyrics" id="lyrics" placeholder="Enter Lyrics" />
+                </div>
+                <div class="mb-3">
+                    <label for="song_file" class="form-label h5">Upload Song File (MP3, WAV, etc.):</label>
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="song_file" name="song_file" accept=".mp3, .wav" required>
+                        <label class="input-group-text" for="song_file">Upload</label>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-success">Upload Song</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Flagged Songs
+{% endblock title %}
+
+{% block content %}
+
+{% if flagged_songs %}
+    <br>
+    <div class="container">
+        <h3 class="text-center">Flagged Songs</h3>
+        <br>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">S.No</th>
+                    <th class="text-center" scope="col">Song Name</th>
+                    <th class="text-end" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for song in flagged_songs %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td class="col">
+                        <h5>{{ song.title }}</h5>
+                    </td>
+                    <td class="col text-end">
+                        <a href="{{url_for('controllers.update_song', song_id=song.id)}}" class="btn btn-primary mx-2">Update Song</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <br>
+    <div class="text-center">
+        <h3>No flagged songs found!</h3>
+    </div>
+{% endif %}
+
+{% endblock content %}

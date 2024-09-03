@@ -1,0 +1,86 @@
+{% extends 'admin_base.html' %}
+{% block title %}
+    Admin Dashboard
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-primary">Welcome, Admin!</h2>
+        </div>
+        <div class="col text-end">
+            <a href="{{url_for('controllers.all_songs')}}" type="button" class="btn btn-info">All Songs</a>
+            <a href="{{url_for('controllers.all_users')}}" type="button" class="btn btn-success">All Users</a>
+            <a href="{{url_for('controllers.all_creators')}}" type="button" class="btn btn-warning">All Creators</a>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light rounded shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Normal Users</h5>
+                    <h3 class="card-text">{{ total_normal_users }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light rounded shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-warning">Creators</h5>
+                    <h3 class="card-text">{{ total_creators }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light rounded shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-danger">Total Songs</h5>
+                    <h3 class="card-text">{{ total_songs }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light rounded shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-success">Total Albums</h5>
+                    <h3 class="card-text">{{ total_albums }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light rounded shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-info">Total Genres</h5>
+                    <h3 class="card-text">{{ total_genres }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container mt-4">
+    <h2 class="text-center text-warning">Top Rated Songs</h2>
+    <div class="row justify-content-center">
+        {% for song in top_rated_songs %}
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light rounded shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ song.title }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
+
+
+{% endblock content %}
